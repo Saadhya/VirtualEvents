@@ -52,7 +52,7 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   if (!isAuthenticated) {
     return (
       <Stack.Navigator>
@@ -63,9 +63,9 @@ function RootNavigator() {
         />
         <Stack.Screen
           name="SignUp"
-          component={SignInScreen}
-          // component={SignUpScreen}
-          options={{ title: "Create an account" }}
+          // component={SignInScreen}
+          component={SignUpScreen}
+          options={{ title: "Sign Up" }}
         />
       </Stack.Navigator>
     );
