@@ -59,12 +59,13 @@ function RootNavigator() {
         <Stack.Screen
           name="SignIn"
           component={SignInScreen}
-          options={{ title: "Signin", headerShown: false }}
+          options={{ title: "Sign in", headerShown: false }}
         />
         <Stack.Screen
           name="SignUp"
-          component={SignUpScreen}
-          options={{ title: "Sign up" }}
+          component={SignInScreen}
+          // component={SignUpScreen}
+          options={{ title: "Create an account" }}
         />
       </Stack.Navigator>
     );
