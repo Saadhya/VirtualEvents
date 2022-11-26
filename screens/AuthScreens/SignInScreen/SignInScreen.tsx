@@ -3,7 +3,7 @@ import {
   View,
   Image,
   StyleSheet,
-  useWindowDimensions,
+  useWindowDimensions, Alert,
   ScrollView,
 } from "react-native";
 import Logo from "./logo.png";
@@ -12,6 +12,7 @@ import CustomButton from "../components/CustomButton";
 import SocialSignInButtons from "../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
+import { useSignInEmailPassword } from "@nhost/react";
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -21,17 +22,29 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const { control, handleSubmit } = useForm();
+  const { signInEmailPassword, isLoading } = useSignInEmailPassword();
 
   const onSignInPressed = async (data) => {
     if (loading) {
       return;
     }
-
-    setLoading(true);
-
+    const { email, password } = data;
+    const { error, needsEmailVerification } = await signInEmailPassword(
+      email,
+      password
+    );
+    if (error) {
+      Alert.alert("Oops", error.message);
+    }
+    if (needsEmailVerification) {
+      Alert.alert("Verify your email", "Check your email and follow the link");
+    }
+    // if(isSuccess){
+    //   navigation.navigate("root")
+    // }
     // Sign in
 
-    setLoading(false);
+    // setLoading(false);
   };
 
   const onForgotPasswordPressed = () => {
