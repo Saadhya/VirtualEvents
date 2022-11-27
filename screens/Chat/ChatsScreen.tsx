@@ -1,9 +1,13 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { ChatContext } from "../../context/ChatContext";
+
 const ChatsScreen = () => {
+  const { username } = useContext(ChatContext);
+
   return (
     <View>
-      <Text>Chats Screen</Text>
+      <Text>{username}</Text>
     </View>
   );
 };
