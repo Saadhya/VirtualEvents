@@ -52,13 +52,16 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
   }, []);
+
+  const startDMChatRoom = (user)=>{
+    console.warn("Starting a chatroom with a user", user.id);
+  }
   if (!chatClient) {
     <ActivityIndicator />;
   }
   //   const value = { username: "Krishna" };
   const value = { chatClient, currentChannel, setCurrentChannel };
   return (
-    // <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
     <OverlayProvider>
       <Chat client={chatClient}>
         <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
@@ -68,4 +71,4 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const usechatContext = () => useContext(ChatContext);
-export default ChatContextProvider;
+export default ChatContextProvider; 

@@ -1,27 +1,30 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
-import React from 'react';
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import React from "react";
+import { usechatContext } from "../context/ChatContext";
 
 type UserListItemProps = {
-  user: any,
+  user: any;
 };
 
 const UserListItem = ({ user }: UserListItemProps) => {
+  const { startDMChatRoom } = usechatContext();
+
   return (
-    <View style={styles.container}>
+    <Pressable onPress={startDMChatRoom} style={styles.container}>
       <Image source={{ uri: user.avatarUrl }} style={styles.image} />
       <Text style={styles.name}>{user.displayName}</Text>
-    </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 5,
     margin: 5,
     marginHorizontal: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 5,
   },
   image: {
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   name: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 10,
   },
 });
