@@ -136,7 +136,7 @@ function BottomTabNavigator() {
           ),
         })}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="Chat"
         component={ChatStackNavigator}
         options={{
@@ -144,7 +144,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => 
           <Ionicons name="chatbox-ellipses-outline" size={25} color={color} />,
         }}
-      />
+      /> */}
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}
