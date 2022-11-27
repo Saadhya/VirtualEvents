@@ -1,12 +1,20 @@
 import { useUserData } from "@nhost/react";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { StreamChat } from "stream-chat";
+import { StreamChat, Channel } from "stream-chat";
+import { ActivityIndicator } from "react-native";
+import { OverlayProvider, Chat } from "stream-chat-expo";
+type ChatContextType = {
+  currentChannel: Channel;
+};
 
-export const ChatContext = createContext({});
+export const ChatContext = createContext<ChatContextType>({
+  currentChannel: undefined,
+});
 
 const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
   //component
   const [chatClient, setChatClient] = useState<StreamChat>();
+  const [currentChannel, setCurrentChannel] = useState<Channel>();
   const user = useUserData();
 
   useEffect(() => {
@@ -14,7 +22,7 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
       if (!user) {
         return;
       }
-      const client = StreamChat.getInstance("k3372wfr3xzg");
+      const client = StreamChat.getInstance("ma2wyrw69x3g");
       // get info about authenticated
 
       // connect the user
@@ -29,8 +37,10 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
       setChatClient(client);
       const globalChannel = client.channel("livestream", "global", {
         name: "notJust.dev",
+        // image;''
       });
       await globalChannel.watch();
+      //   await globalChannel.watch({ watchers: { limit: 100 } });
     };
 
     initChat();
@@ -41,10 +51,20 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
         chatClient.disconnectUser();
       }
     };
-  });
-  const value = { username: "Test username" };
-
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+  }, []);
+  if (!chatClient) {
+    <ActivityIndicator />;
+  }
+  //   const value = { username: "Krishna" };
+  const value = { chatClient, currentChannel, setCurrentChannel };
+  return (
+    // <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
+    <OverlayProvider>
+      <Chat client={chatClient}>
+        <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
+      </Chat>
+    </OverlayProvider>
+  );
 };
 
 export const usechatContext = () => useContext(ChatContext);

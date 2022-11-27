@@ -25,7 +25,7 @@ export default function App() {
     return null;
   } else {
     return (
-      <GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <NhostReactProvider nhost={nhost}>
             <NhostApolloProvider nhost={nhost}>

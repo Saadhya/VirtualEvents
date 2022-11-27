@@ -47,6 +47,8 @@ export default function TabOneScreen({
   if (error) {
     return <Text>{error.message}</Text>;
   }
+  // console.log("hey")
+
   // console.log(JSON.stringify(getEventsSchedule(data.Event), null, 5));
   const events = getEventsSchedule(data.Event);
 
@@ -69,6 +71,7 @@ export default function TabOneScreen({
       <Pressable
         style={[styles.item, { height: reservation.height }]}
         onPress={() => navigation.navigate("Modal", { id: reservation.id })}
+        // onPress={() => navigation.replace()}
         // onPress={() => Alert.alert(reservation.name)}
       >
         <Text style={{ fontSize, color }}>{reservation.name}</Text>

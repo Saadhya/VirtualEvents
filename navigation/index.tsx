@@ -41,6 +41,7 @@ export default function Navigation({
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+      // theme={DefaultTheme}
     >
       <RootNavigator />
     </NavigationContainer>
@@ -136,15 +137,16 @@ function BottomTabNavigator() {
           ),
         })}
       />
-      {/* <BottomTab.Screen
+      <BottomTab.Screen
         name="Chat"
         component={ChatStackNavigator}
         options={{
-          headerShown:false,
-          tabBarIcon: ({ color }) => 
-          <Ionicons name="chatbox-ellipses-outline" size={25} color={color} />,
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="chatbox-ellipses-outline" size={25} color={color} />
+          ),
         }}
-      /> */}
+      />
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}
