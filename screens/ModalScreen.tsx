@@ -1,19 +1,42 @@
 import { AntDesign } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet, Image } from "react-native";
+import { Platform, StyleSheet, Image, ActivityIndicator } from "react-native";
 import { Text, View } from "../components/Themed";
 
 // data
-import event from "../assets/data/event.json";
+// import event from "../assets/data/event.json";
 import CustomButton from "../components/CustomButton";
 import users from "../assets/data/users.json";
+import { gql, useQuery } from "@apollo/client";
 
+const GetEvent = gql`
+  query GetEvent($id: uuid!) {
+    Event_by_pk(id: $id) {
+      id
+      name
+      date
+    }
+  }
+`;
 export default function ModalScreen({ route }) {
   const id = route?.params?.id;
-  console.log("Rendering event");
+  const { data, loading, error } = useQuery(GetEvent, { variables: { id } });
+  const event = data?.Event_by_pk;
+  // console.log(data);
 
   const onJoin = () => {};
   const displayedUsers = users.slice(0, 5);
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Couldn't find the event</Text>
+        <Text>{error.message}</Text>
+      </View>
+    );
+  }
+  if (loading) {
+    return <ActivityIndicator />;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{event.name}</Text>

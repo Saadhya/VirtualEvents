@@ -10,7 +10,7 @@ import {
   DateData,
 } from "react-native-calendars";
 import { useState } from "react";
-import events from "../assets/data/events.json";
+// import events from "../assets/data/events.json";
 import { gql, useQuery } from "@apollo/client";
 
 const GetEvents = gql`
@@ -39,6 +39,7 @@ const getEventsSchedule = (events: []): AgendaSchedule => {
 export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
+  const [items, setItems] = useState<AgendaSchedule>({});
   const { data, loading, error } = useQuery(GetEvents);
   if (loading) {
     return <ActivityIndicator />;
@@ -46,9 +47,8 @@ export default function TabOneScreen({
   if (error) {
     return <Text>{error.message}</Text>;
   }
-  console.log(JSON.stringify(getEventsSchedule(data.Event), null, 5));
-  // const events = getEventsSchedule(data.Event);
-  const [items, setItems] = useState<AgendaSchedule>({});
+  // console.log(JSON.stringify(getEventsSchedule(data.Event), null, 5));
+  const events = getEventsSchedule(data.Event);
 
   const loadItems = (day: DateData) => {
     setItems(events);
