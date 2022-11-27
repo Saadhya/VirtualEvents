@@ -1,11 +1,30 @@
-import { View, Text, FlatList } from "react-native";
-import users from "../assets/data/users.json";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
+// import users from "../assets/data/users.json";
 import UserListItem from "../components/UserListItem";
+import { gql, useQuery } from "@apollo/client";
 
+const GetUser = gql`
+  query GetUsers {
+    users {
+      id
+      displayName
+      avatarUrl
+    }
+  }
+`;
 const UsersScreen = () => {
+  const { loading, error, data } = useQuery(GetUser);
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+  // console.log(JSON.stringify(data, null, 2));
+  
   return (
     <FlatList
-      data={users}
+      data={data.users}
       renderItem={({ item }) => <UserListItem user={item} />}
     />
   );

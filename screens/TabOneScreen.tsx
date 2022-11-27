@@ -1,4 +1,4 @@
-import { Pressable, Alert, StyleSheet } from "react-native";
+import { Pressable, Alert, StyleSheet, ActivityIndicator } from "react-native";
 
 // import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
@@ -11,10 +11,43 @@ import {
 } from "react-native-calendars";
 import { useState } from "react";
 import events from "../assets/data/events.json";
+import { gql, useQuery } from "@apollo/client";
 
+const GetEvents = gql`
+  query GetEvents {
+    Event {
+      id
+      name
+      date
+    }
+  }
+`;
+const getEventsSchedule = (events: []): AgendaSchedule => {
+  const items: AgendaSchedule = {};
+
+  events.forEach((event) => {
+    const day = event.date.slice(0, 10);
+
+    if (!items[day]) {
+      items[day] = [];
+    }
+    items[day].push({ ...event, day, height: 50 });
+  });
+
+  return items;
+};
 export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
+  const { data, loading, error } = useQuery(GetEvents);
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+  console.log(JSON.stringify(getEventsSchedule(data.Event), null, 5));
+  // const events = getEventsSchedule(data.Event);
   const [items, setItems] = useState<AgendaSchedule>({});
 
   const loadItems = (day: DateData) => {
@@ -35,7 +68,7 @@ export default function TabOneScreen({
     return (
       <Pressable
         style={[styles.item, { height: reservation.height }]}
-        onPress={() => navigation.navigate("Modal", {id: reservation.id})}
+        onPress={() => navigation.navigate("Modal", { id: reservation.id })}
         // onPress={() => Alert.alert(reservation.name)}
       >
         <Text style={{ fontSize, color }}>{reservation.name}</Text>
@@ -43,15 +76,6 @@ export default function TabOneScreen({
     );
   };
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.title}>First</Text>
-    //   <View
-    //     style={styles.separator}
-    //     lightColor="#eee"
-    //     darkColor="rgba(255,255,255,0.1)"
-    //   />
-    //   <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    // </View>
     <View style={styles.container}>
       <Agenda
         items={items}

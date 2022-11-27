@@ -5,7 +5,8 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { NhostClient, NhostReactProvider } from "@nhost/react";
-import * as SecureStore from 'expo-secure-store';
+import { NhostApolloProvider } from "@nhost/react-apollo";
+import * as SecureStore from "expo-secure-store";
 
 const nhost = new NhostClient({
   subdomain: "cxbpgbxtirfcwvgirmyq",
@@ -24,7 +25,9 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NhostReactProvider nhost={nhost}>
-          <Navigation colorScheme={colorScheme} />
+          <NhostApolloProvider nhost={nhost}>
+            <Navigation colorScheme={colorScheme} />
+          </NhostApolloProvider>
         </NhostReactProvider>
         <StatusBar />
       </SafeAreaProvider>

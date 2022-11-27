@@ -20,7 +20,7 @@ export default function TabTwoScreen() {
       <View style={{ marginTop: "auto" }}>
         <CustomButton
           onPress={signOut}
-          text="Sign out"
+          text="Log out"
           type="TERTIARY"
           fgColor="crimson"
         />
