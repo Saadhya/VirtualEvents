@@ -1,8 +1,8 @@
-import { View, Text } from "react-native";
+// import { View, Text } from "react-native";
 import React, { useContext } from "react";
 import { ChatContext, usechatContext } from "../../context/ChatContext";
 import { ChannelList } from "stream-chat-expo";
-import { StreamChat } from "stream-chat";
+// import { StreamChat } from "stream-chat";
 import { useNavigation } from "@react-navigation/core";
 
 const ChatsScreen = () => {
