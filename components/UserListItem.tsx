@@ -10,7 +10,7 @@ const UserListItem = ({ user }: UserListItemProps) => {
   const { startDMChatRoom } = usechatContext();
 
   return (
-    <Pressable onPress={startDMChatRoom} style={styles.container}>
+    <Pressable onPress={()=> startDMChatRoom(user)} style={styles.container}>
       <Image source={{ uri: user.avatarUrl }} style={styles.image} />
       <Text style={styles.name}>{user.displayName}</Text>
     </Pressable>

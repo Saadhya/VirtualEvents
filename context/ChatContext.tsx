@@ -3,10 +3,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { StreamChat, Channel } from "stream-chat";
 import { ActivityIndicator, Text } from "react-native";
 import { OverlayProvider, Chat } from "stream-chat-expo";
-// import { ChannelList, Chat, OverlayProvider } from 'stream-chat-react-native';
+import { useNavigation } from "@react-navigation/native";
 
 type ChatContextType = {
-  currentChannel: Channel;
+  currentChannel?: Channel;
 };
 
 export const ChatContext = createContext<ChatContextType>({
@@ -18,6 +18,7 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [chatClient, setChatClient] = useState<StreamChat>();
   const [currentChannel, setCurrentChannel] = useState<Channel>();
   const user = useUserData();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const initChat = async () => {
@@ -42,11 +43,9 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
 
       const globalChannel = client.channel("livestream", "global", {
         name: "notJust.dev",
-        image: "https://getstream.io/random_svg/?name=John",
-        // image;''
+        // image: "https://getstream.io/random_svg/?name=John",
       });
       await globalChannel.watch();
-      //   await globalChannel.watch({ watchers: { limit: 100 } });
     };
 
     initChat();
@@ -59,15 +58,45 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const startDMChatRoom = (user) => {
+  const startDMChatRoom = async (chatWithUser) => {
     if (!chatClient) {
-        <ActivityIndicator />;
-      }
-      const newChannel = chatClient?.channel("messaging", );
-    console.warn("Starting a chatroom with a user", user.id);
+      // <ActivityIndicator />;
+      return;
+    }
+    const newChannel = chatClient?.channel("messaging", {
+      members: [chatClient.userID, chatWithUser.id],
+    });
+
+    await newChannel.watch();
+    setCurrentChannel(newChannel);
+    
+    // navigation.goBack();
+    navigation.replace("ChatRoom");
+    // console.warn("Starting a chatroom with a user", user.id);
+  };
+  
+  const joinEventChatRoom = async (event) => {
+    if (!chatClient) {
+      return;
+    }
+    const channelId = `room-${event.id}`;
+    const eventChannel = chatClient.channel("livestream", channelId, {
+      name: event.name,
+    });
+
+    await eventChannel.watch({ watchers: { limit: 100 } });
+    setCurrentChannel(eventChannel);
+
+    navigation.navigate("Root", {
+      screen: "Chat",
+    });
+    navigation.navigate("Root", {
+      screen: "Chat",
+      params: { screen: "ChatRoom" },
+    });
   };
   if (!chatClient) {
-    <ActivityIndicator />;
+    return <ActivityIndicator />;
   }
   //   const value = { username: "Krishna" };
   const value = {
@@ -86,5 +115,5 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const usechatContext = () => useContext(ChatContext);
+export const useChatContext = () => useContext(ChatContext);
 export default ChatContextProvider;

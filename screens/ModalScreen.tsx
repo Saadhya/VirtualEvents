@@ -11,8 +11,8 @@ import { Text, View } from "../components/Themed";
 
 // data
 // import event from "../assets/data/event.json";
-import CustomButton from "../components/CustomButton";
 // import users from "../assets/data/users.json";
+import CustomButton from "../components/CustomButton";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useUserId } from "@nhost/react";
 
@@ -57,7 +57,7 @@ export default function ModalScreen({ route }) {
   // we update data from useMutation
   const [doJoinEvent] = useMutation(JoinEvent);
   const event = data?.Event_by_pk;
-  console.log(JSON.stringify(event, null, 2));
+  // console.log(JSON.stringify(event, null, 2));
 
   const onJoin = async () => {
     try {
@@ -101,6 +101,7 @@ export default function ModalScreen({ route }) {
                 styles.userAvatar,
                 { transform: [{ translateX: -15 * index }] },
               ]}
+              key={index}
             />
           ))}
           <View
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     margin: 2,
     borderWidth: 1,
     borderColor: "white",
-    backgroundColor: "gainsboro",
+    backgroundColor: "grey",
     justifyContent: "center",
     alignItems: "center",
   },
