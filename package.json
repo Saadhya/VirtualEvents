@@ -25,7 +25,7 @@
     "@types/react-router": "^5.1.19",
     "expo": "~47.0.8",
     "expo-asset": "~8.6.2",
-    "expo-av": "~13.0.1",
+    "expo-av": "~13.0.2",
     "expo-clipboard": "~4.0.1",
     "expo-constants": "~14.0.2",
     "expo-document-picker": "~11.0.1",

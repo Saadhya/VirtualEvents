@@ -104,6 +104,7 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
     currentChannel,
     setCurrentChannel,
     startDMChatRoom,
+    joinEventChatRoom
   };
   return (
     // <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
@@ -116,4 +117,5 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useChatContext = () => useContext(ChatContext);
+
 export default ChatContextProvider;

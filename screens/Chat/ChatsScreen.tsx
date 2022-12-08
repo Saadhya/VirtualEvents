@@ -6,9 +6,11 @@ import { Channel } from "stream-chat";
 import { useNavigation } from "@react-navigation/native";
 
 const ChatsScreen = () => {
-  // const { username } = useContext(ChatContext);
   const { setCurrentChannel } = useChatContext();
+
+  // const { username } = useContext(ChatContext);
   // console.log(setCurrentChannel.name);
+  
   const navigation = useNavigation();
   const onSelect = (chanel: Channel) => {
     // console.warn("Select");

@@ -16,11 +16,7 @@ export default () => {
           name="Chats"
           component={ChatsScreen}
           options={({ navigation }) => ({
-            // title: "Calendar",
-            // tabBarIcon: ({ color }) => (
-            //   <TabBarIcon name="calendar" color={color} />
-            // ),
-            headerRight: () => (
+           headerRight: () => (
               <Pressable
                 onPress={() => navigation.navigate("Users")}
                 style={({ pressed }) => ({
